@@ -5,10 +5,10 @@ namespace Frame
 	class Layer
 	{
 	public:
-		~Layer();
+		virtual ~Layer() = default;
 
-		void OnAttach();
-		void OnDetach();
-		void OnImGUIRender();
+		virtual void OnAttach();
+		virtual void OnDetach();
+		virtual void OnImGUIRender();
 	};
 }
