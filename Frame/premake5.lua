@@ -18,7 +18,7 @@ project "Frame"
         "../vendor/stb_image",
 
         "%{IncludeDir.VulkanSDK}",
-        "%{IncludeDir.glm}",
+        "../%{IncludeDir.glm}",
     }
 
     links

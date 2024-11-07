@@ -17,7 +17,7 @@
 #include <iostream>
 
 // Emedded font
-#include "ImGui/Roboto-Regular.embed"
+//#include "ImGui/Roboto-Regular.embed"
 
 extern bool g_ApplicationRunning;
 
@@ -55,7 +55,7 @@ static std::vector<std::vector<std::function<void()>>> s_ResourceFreeQueue;
 // and is always guaranteed to increase (eg. 0, 1, 2, 0, 1, 2)
 static uint32_t s_CurrentFrameIndex = 0;
 
-static Walnut::Application* s_Instance = nullptr;
+static Frame::Application* s_Instance = nullptr;
 
 void check_vk_result(VkResult err)
 {
@@ -382,10 +382,10 @@ static void glfw_error_callback(int error, const char* description)
 	fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 
-namespace Walnut {
+namespace Frame {
 
-	Application::Application(const ApplicationSpecification& specification)
-		: m_Specification(specification)
+	Application::Application(const ApplicationSettings& settings)
+		: m_AppSettings(settings)
 	{
 		s_Instance = this;
 
@@ -399,7 +399,7 @@ namespace Walnut {
 		s_Instance = nullptr;
 	}
 
-	Application& Application::Get()
+	Application& Application::GetApp()
 	{
 		return *s_Instance;
 	}
@@ -415,7 +415,7 @@ namespace Walnut {
 		}
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-		m_WindowHandle = glfwCreateWindow(m_Specification.Width, m_Specification.Height, m_Specification.Name.c_str(), NULL, NULL);
+		m_WindowHandle = glfwCreateWindow(m_AppSettings.Width, m_AppSettings.Height, m_AppSettings.Name.c_str(), NULL, NULL);
 
 		// Setup Vulkan
 		if (!glfwVulkanSupported())
@@ -474,22 +474,26 @@ namespace Walnut {
 		init_info.Queue = g_Queue;
 		init_info.PipelineCache = g_PipelineCache;
 		init_info.DescriptorPool = g_DescriptorPool;
+		init_info.RenderPass = wd->RenderPass;
 		init_info.Subpass = 0;
 		init_info.MinImageCount = g_MinImageCount;
 		init_info.ImageCount = wd->ImageCount;
 		init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
 		init_info.Allocator = g_Allocator;
 		init_info.CheckVkResultFn = check_vk_result;
-		ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);
+		ImGui_ImplVulkan_Init(&init_info);
+
+
+		/*ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);*/
 
 		// Load default font
-		ImFontConfig fontConfig;
+		/*ImFontConfig fontConfig;
 		fontConfig.FontDataOwnedByAtlas = false;
 		ImFont* robotoFont = io.Fonts->AddFontFromMemoryTTF((void*)g_RobotoRegular, sizeof(g_RobotoRegular), 20.0f, &fontConfig);
-		io.FontDefault = robotoFont;
+		io.FontDefault = robotoFont;*/
 
 		// Upload Fonts
-		{
+		/*{
 			// Use any command queue
 			VkCommandPool command_pool = wd->Frames[wd->FrameIndex].CommandPool;
 			VkCommandBuffer command_buffer = wd->Frames[wd->FrameIndex].CommandBuffer;
@@ -516,7 +520,7 @@ namespace Walnut {
 			err = vkDeviceWaitIdle(g_Device);
 			check_vk_result(err);
 			ImGui_ImplVulkan_DestroyFontUploadObjects();
-		}
+		}*/
 	}
 
 	void Application::Shutdown()
@@ -602,7 +606,7 @@ namespace Walnut {
 				// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
 				// because it would be confusing to have two docking targets within each others.
 				ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDocking;
-				if (m_MenubarCallback)
+				if (m_MenuBarCallback)
 					window_flags |= ImGuiWindowFlags_MenuBar;
 
 				const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -638,17 +642,17 @@ namespace Walnut {
 					ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 				}
 
-				if (m_MenubarCallback)
+				if (m_MenuBarCallback)
 				{
 					if (ImGui::BeginMenuBar())
 					{
-						m_MenubarCallback();
+						m_MenuBarCallback();
 						ImGui::EndMenuBar();
 					}
 				}
 
 				for (auto& layer : m_LayerStack)
-					layer->OnUIRender();
+					layer->OnImGUIRender();
 
 				ImGui::End();
 			}

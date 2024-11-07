@@ -10,7 +10,7 @@
 #include "imgui.h"
 #include "vulkan/vulkan.h"
 
-void CheckVulkanResult(VkResult result);
+void check_vk_result(VkResult result);
 
 struct GLFWwindow;
 
@@ -18,10 +18,10 @@ namespace Frame
 {
 	struct ApplicationSettings
 	{
-		std::string name = "Frame App";
+		std::string Name = "Frame App";
 
-		uint32_t width = 1600;
-		uint32_t height = 900;
+		uint32_t Width = 1600;
+		uint32_t Height = 900;
 	};
 
 	class Application
@@ -45,6 +45,8 @@ namespace Frame
 		void PushLayer(const std::shared_ptr<Layer>& layer) { m_LayerStack.emplace_back(layer); layer->OnAttach(); }
 
 		void Close();
+		
+		float GetTime();
 
 		GLFWwindow* GetWindowHandle() const { return m_WindowHandle; }
 
@@ -59,12 +61,16 @@ namespace Frame
 
 	private:
 		void Init();
-		void Shutdow();
+		void Shutdown();
 
 	private:
 		ApplicationSettings m_AppSettings;
 		GLFWwindow* m_WindowHandle = nullptr;
 		bool m_Running = false;
+
+		float m_TimeStep = 0.0f;
+		float m_FrameTime = 0.0f;
+		float m_LastFrameTime = 0.0f;
 
 		std::vector<std::shared_ptr<Layer>> m_LayerStack;
 		std::function<void()> m_MenuBarCallback;
