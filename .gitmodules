@@ -1,9 +1,9 @@
-[submodule "vendor/GLFW"]
-	path = vendor/GLFW
+[submodule "Vendor/GLFW"]
+	path = Vendor/GLFW
 	url = https://github.com/falconvn2006/glfw
-[submodule "vendor/imgui"]
-	path = vendor/imgui
+[submodule "Vendor/imgui"]
+	path = Vendor/imgui
 	url = https://github.com/falconvn2006/imgui
-[submodule "vendor/glm"]
+[submodule "Vendor/glm"]
 	path = vendor/glm
 	url = https://github.com/g-truc/glm.git
