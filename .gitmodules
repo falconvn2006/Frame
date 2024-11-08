@@ -5,5 +5,5 @@
 	path = Vendor/imgui
 	url = https://github.com/falconvn2006/imgui
 [submodule "Vendor/glm"]
-	path = vendor/glm
+	path = Vendor/glm
 	url = https://github.com/g-truc/glm.git
