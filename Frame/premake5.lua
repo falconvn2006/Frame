@@ -13,9 +13,9 @@ project "Frame"
     {
         "src",
 
-        "../vendor/imgui",
-        "../vendor/GLFW/include",
-        "../vendor/stb_image",
+        "../Vendor/imgui",
+        "../Vendor/GLFW/include",
+        "../Vendor/stb_image",
 
         "%{IncludeDir.VulkanSDK}",
         "../%{IncludeDir.glm}",

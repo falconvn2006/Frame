@@ -11,8 +11,8 @@ project "App"
 
     includedirs
     {
-        "../vendor/imgui",
-        "../vendor/GLFW/include",
+        "../Vendor/imgui",
+        "../Vendor/GLFW/include",
 
         "../Frame/src",
 
