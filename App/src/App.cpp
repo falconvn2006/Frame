@@ -1,4 +1,4 @@
-#include "Application.h"
+﻿#include "Application.h"
 #include "Entrypoint.h"
 
 class ExampleLayer : public Frame::Layer
@@ -6,9 +6,9 @@ class ExampleLayer : public Frame::Layer
 public:
 	virtual void OnImGUIRender() override
 	{
-		ImGui::Begin("Bonus Windows");
+		ImGui::Begin("Window");
 		
-		ImGui::Button("Press me");
+		ImGui::Button("Press me!");
 
 		ImGui::End();
 
@@ -26,7 +26,7 @@ Frame::Application* Frame::CreateApplication(int argc, char** argv)
 	application->PushLayer<ExampleLayer>();
 	application->SetMenuBarCallback([application]()
 	{
-		if (ImGui::Begin("Menu"))
+		if (ImGui::BeginMenu("Menu"))
 		{
 			if (ImGui::MenuItem("Exit"))
 				application->Close();

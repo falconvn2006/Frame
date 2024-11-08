@@ -17,7 +17,7 @@
 #include <iostream>
 
 // Emedded font
-//#include "ImGui/Roboto-Regular.embed"
+#include "ImGui/Roboto-Regular.embed"
 
 extern bool g_ApplicationRunning;
 
@@ -483,17 +483,14 @@ namespace Frame {
 		init_info.CheckVkResultFn = check_vk_result;
 		ImGui_ImplVulkan_Init(&init_info);
 
-
-		/*ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);*/
-
 		// Load default font
-		/*ImFontConfig fontConfig;
+		ImFontConfig fontConfig;
 		fontConfig.FontDataOwnedByAtlas = false;
 		ImFont* robotoFont = io.Fonts->AddFontFromMemoryTTF((void*)g_RobotoRegular, sizeof(g_RobotoRegular), 20.0f, &fontConfig);
-		io.FontDefault = robotoFont;*/
+		io.FontDefault = robotoFont;
 
 		// Upload Fonts
-		/*{
+		{
 			// Use any command queue
 			VkCommandPool command_pool = wd->Frames[wd->FrameIndex].CommandPool;
 			VkCommandBuffer command_buffer = wd->Frames[wd->FrameIndex].CommandBuffer;
@@ -506,7 +503,7 @@ namespace Frame {
 			err = vkBeginCommandBuffer(command_buffer, &begin_info);
 			check_vk_result(err);
 
-			ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
+			ImGui_ImplVulkan_CreateFontsTexture();
 
 			VkSubmitInfo end_info = {};
 			end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -519,8 +516,8 @@ namespace Frame {
 
 			err = vkDeviceWaitIdle(g_Device);
 			check_vk_result(err);
-			ImGui_ImplVulkan_DestroyFontUploadObjects();
-		}*/
+			/*ImGui_ImplVulkan_DestroyFontUploadObjects();*/
+		}
 	}
 
 	void Application::Shutdown()

@@ -2,6 +2,7 @@
 
 #include "Layer.h"
 
+// Since this is a simple app we just include all the necessary header files where we need.
 #include <string>
 #include <vector>
 #include <memory>
@@ -12,10 +13,12 @@
 
 void check_vk_result(VkResult result);
 
+// Window struct to hold the window data
 struct GLFWwindow;
 
 namespace Frame
 {
+	// Custom application struct for setting up the app
 	struct ApplicationSettings
 	{
 		std::string Name = "Frame App";
@@ -35,6 +38,7 @@ namespace Frame
 		void Run();
 		void SetMenuBarCallback(const std::function<void()>& menuBarCallback) { m_MenuBarCallback = menuBarCallback; }
 
+		// Make a template so we can put the Layer into a shared pointer easier without to convert from else where
 		template<typename T>
 		void PushLayer()
 		{
